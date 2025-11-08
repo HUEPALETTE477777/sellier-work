@@ -10,9 +10,13 @@ const port = process.env.PORT || 6666
 
 app.use(express.json())
 app.use(cors({
-    origin: process.env.FRONTEND_DOMAIN, 
-    credentials: true,
+  origin: [
+    "http://localhost:5173",
+    "https://cybot-ojio.onrender.com"
+  ],
+  credentials: true,
 }));
+
 
 app.use(cookieParser());
 
