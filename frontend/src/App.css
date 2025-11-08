@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  /* COLORS */
+  --color-primary-blue: #1091ca;
+  --color-primary-navy-blue: #0f3559;
+  --color-primary-gray: #666666;
+  --color-secondary-gray: #979797;
+
+  /* FONTS */
+   --font-poppins: Poppins, sans-serif;
+}
