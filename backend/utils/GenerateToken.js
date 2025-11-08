@@ -11,11 +11,11 @@ const generateToken = (user, res) => {
         expiresIn: process.env.JWT_EXPIRES_IN
     });
 
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
         httpOnly: true,
-        sameSite: 'lax',
-        secure: false, // TRUE IN PROD
-        maxAge: 1000 * 60 * 60 // 1 HOUR
+        secure: true,           // HTTPS IN PROD
+        sameSite: "None",       
+        maxAge: 1000 * 60 * 60, // 1 HR
     });
 
     return token;
