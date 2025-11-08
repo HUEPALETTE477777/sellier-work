@@ -8,15 +8,16 @@ dotenv.config()
 const app = express();
 const port = process.env.PORT || 6666
 
+const allowed = [
+    process.env.FRONTEND_DOMAIN_LOCAL,
+    process.env.FRONTEND_DOMAIN_PROD,
+];
+
 app.use(express.json())
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://cybot-ojio.onrender.com"
-  ],
-  credentials: true,
+    origin: allowed,
+    credentials: true,
 }));
-
 
 app.use(cookieParser());
 

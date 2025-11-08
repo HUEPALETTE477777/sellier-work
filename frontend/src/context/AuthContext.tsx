@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_FRONTEND_API_URL}/users/current`)
+        axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/users/current`)
             .then((res) => {
                 setUser(res.data.user);
                 setIsAuthenticated(true);
@@ -44,12 +44,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (username: string, password: string) => {
         try {
             await axios.post(
-                `${import.meta.env.VITE_FRONTEND_API_URL}/users/login`,
+                `${import.meta.env.VITE_BACKEND_API_URL}/users/login`,
                 { username, password },
                 { withCredentials: true }  
             );
 
-            const res = await axios.get(`${import.meta.env.VITE_FRONTEND_API_URL}/users/current`);
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/users/current`);
             setUser(res.data.user);
             setIsAuthenticated(true);
         } catch (err) {
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = async () => {
         try {
-            await axios.post(`${import.meta.env.VITE_FRONTEND_API_URL}/users/logout`, {}, {
+            await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}/users/logout`, {}, {
                 withCredentials: true
             });
 
