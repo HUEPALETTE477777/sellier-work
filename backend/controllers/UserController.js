@@ -93,13 +93,14 @@ const signup = async (req, res) => {
         );
 
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USERNAME,
                 pass: process.env.EMAIL_PASSWORD,
             },
         });
-
 
         const verificationLink = `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
 
@@ -109,6 +110,7 @@ const signup = async (req, res) => {
             subject: "VERIFY THAT EMAIL",
             html: `<p>CLICK <a href="${verificationLink}">here</a> TO VERIFY DAT EMAIL</p>`
         });
+        console.log("EMAIL SENT SUCCESSFULLY");
 
         res.status(200).json({ message: "USER CREATED!", user: result.rows[0] });
 
