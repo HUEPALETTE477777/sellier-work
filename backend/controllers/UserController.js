@@ -104,7 +104,7 @@ const signup = async (req, res) => {
         const verificationLink = `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
 
         await transporter.sendMail({
-            from: '"THE CYBOT TERRORISTS" <austinschild69@gmail.com>',
+            from: `"THE CYBOT TERRORISTS" <${process.env.EMAIL_USERNAME}>`,
             to: email,
             subject: "VERIFY THAT EMAIL",
             html: `<p>CLICK <a href="${verificationLink}">here</a> TO VERIFY DAT EMAIL</p>`
