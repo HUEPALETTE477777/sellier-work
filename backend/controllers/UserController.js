@@ -93,14 +93,21 @@ const signup = async (req, res) => {
         );
 
         const transporter = nodemailer.createTransport({
-            service: 'gmail', // SMTP SERVICE
+            service: "gmail",
             auth: {
                 user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
+                pass: process.env.EMAIL_PASSWORD,
+            },
         });
 
-        const verificationLink = `http://localhost:5111/api/users/verify-email/${emailToken}`;
+
+        const domain =
+            process.env.NODE_ENV === "production"
+                ? process.env.FRONTEND_DOMAIN_PROD
+                : process.env.FRONTEND_DOMAIN_LOCAL;
+
+        const verificationLink = `${domain}/verify-email/${emailToken}`;
+
 
         await transporter.sendMail({
             from: '"THE CYBOT TERRORISTS" <austinschild69@gmail.com>',
