@@ -76,13 +76,18 @@ const signup = async (req, res) => {
             return res.status(400).json({ error: "PASSWORD MUST BE AT LEAST 8 CHARACTERS AND CONTAIN A NUMBER" });
         }
 
-        const userExistence = await pool.query("SELECT * FROM users WHERE username = $1 OR email = $2", [username, email]);
+        // Check duplicates
+        const userExistence = await pool.query(
+            "SELECT * FROM users WHERE username = $1 OR email = $2",
+            [username, email]
+        );
+
         if (userExistence.rows.length > 0) {
             return res.status(409).json({ error: "USERNAME OR EMAIL ALREADY EXISTS" });
         }
 
-        const saltRounds = 12;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Create user
+        const hashedPassword = await bcrypt.hash(password, 12);
         const emailToken = uuidv4();
 
         const result = await pool.query(
@@ -92,33 +97,44 @@ const signup = async (req, res) => {
             [username, email, hashedPassword, emailToken]
         );
 
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD,
-            },
+        const user = result.rows[0];
+
+        try {
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD,
+                },
+            });
+
+            const verificationLink =
+                `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
+
+            await transporter.sendMail({
+                from: `"SELLIER" <${process.env.EMAIL_USERNAME}>`,
+                to: email,
+                subject: "Verify Your Email",
+                html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`
+            });
+
+        } catch (mailErr) {
+            console.error("EMAIL SEND FAILED:", mailErr);
+        }
+
+        return res.status(200).json({
+            message: "ACCOUNT CREATED. CHECK YOUR EMAIL TO VERIFY.",
+            user,
+            emailSent: true
         });
 
-        const verificationLink = `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
-
-        await transporter.sendMail({
-            from: `"THE CYBOT TERRORISTS" <${process.env.EMAIL_USERNAME}>`,
-            to: email,
-            subject: "VERIFY THAT EMAIL",
-            html: `<p>CLICK <a href="${verificationLink}">here</a> TO VERIFY DAT EMAIL</p>`
-        });
-        console.log("EMAIL SENT SUCCESSFULLY");
-
-        res.status(200).json({ message: "USER CREATED!", user: result.rows[0] });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'INTERNAL SERVER ERROR' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "INTERNAL SERVER ERROR" });
     }
-}
+};
 
 const login = async (req, res) => {
     try {

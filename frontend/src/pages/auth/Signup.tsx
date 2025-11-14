@@ -16,7 +16,7 @@ const Signup = () => {
         evt.preventDefault();
 
         try {
-            const res = await axios.post(`https://sellier-work.onrender.com/api/users/signup`, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}/users/signup`, {
                 email,
                 username,
                 password,
@@ -26,8 +26,6 @@ const Signup = () => {
             setEmail('');
             setUsername('');
             setPassword('');
-
-            localStorage.setItem('token', res.data.token);
         } catch (err: any) {
             setMessage(err?.response?.data?.error || 'FAILED SIGN UP');
         }
