@@ -101,13 +101,7 @@ const signup = async (req, res) => {
         });
 
 
-        const domain =
-            process.env.NODE_ENV === "production"
-                ? process.env.FRONTEND_DOMAIN_PROD
-                : process.env.FRONTEND_DOMAIN_LOCAL;
-
-        const verificationLink = `${domain}/verify-email/${emailToken}`;
-
+        const verificationLink = `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
 
         await transporter.sendMail({
             from: '"THE CYBOT TERRORISTS" <austinschild69@gmail.com>',
