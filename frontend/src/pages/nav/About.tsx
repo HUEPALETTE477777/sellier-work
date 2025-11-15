@@ -7,9 +7,9 @@ const About = () => {
             {/* LEFT SIDE — TITLE */}
             <div className="md:w-1/2 text-center animate-slide-in-left">
                 <h1 className="
-                        md:text-9xl font-bold text-white mb-4 p-12
+                        md:text-8xl text-5xl font-bold text-white mb-4 p-12
                         bg-gradient-to-l from-secondary-navy-blue to-transparent
-                         rounded-xl
+                        rounded-xl
                     ">
                     About Cybot
                 </h1>
