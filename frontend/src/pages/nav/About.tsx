@@ -21,7 +21,7 @@ const About = () => {
                     animate-slide-in-right
                     bg-gradient-to-r from-secondary-navy-blue to-transparent
                     p-8 rounded-xl
-                    border-l-4 border-blue-200
+                    border-l-3 border-blue-200
                 ">
                 <p className="mb-4">
                     Our product, Cybot, is a robot which ensures safe and efficient tasks
