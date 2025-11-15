@@ -45,7 +45,7 @@ const Login = () => {
                     <input
                         type="text"
                         value={username}
-                        placeholder="USERNAME OR EMAIL"
+                        placeholder="USERNAME"
                         onChange={(e) => setUsername(e.target.value)}
                         disabled={loading}
                         className="w-full px-4 py-2 border focus:outline-none"

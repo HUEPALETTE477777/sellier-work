@@ -4,7 +4,6 @@ import axios from 'axios';
 interface UserType {
     user_id: string;
     username: string;
-    email: string;
     created_at: string;
 }
 
@@ -12,16 +11,16 @@ interface AuthContextType {
     isAuthenticated: boolean;
     user: UserType | null;
     login: (username: string, password: string) => Promise<void>;
-    signup: (email: string, username: string, password: string) => Promise<void>;
+    signup: (username: string, password: string) => Promise<void>;
     logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
     user: null,
-    login: async () => {},
-    signup: async () => {},
-    logout: () => {},
+    login: async () => { },
+    signup: async () => { },
+    logout: () => { },
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -42,11 +41,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             });
     }, []);
 
-    const signup = async (email: string, username: string, password: string) => {
+    const signup = async (username: string, password: string) => {
         try {
             await axios.post(
                 `${import.meta.env.VITE_BACKEND_API_URL}/users/signup`,
-                { email, username, password },
+                { username, password },
                 { withCredentials: true }
             );
 

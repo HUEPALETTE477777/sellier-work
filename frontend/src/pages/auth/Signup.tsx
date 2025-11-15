@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [toggleVisiblePassword, setToggleVisiblePassword] = useState(false);
@@ -17,13 +16,11 @@ const Signup = () => {
 
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}/users/signup`, {
-                email,
                 username,
                 password,
             });
 
             setMessage(res.data.message);
-            setEmail('');
             setUsername('');
             setPassword('');
         } catch (err: any) {
@@ -36,14 +33,6 @@ const Signup = () => {
             <div className="w-full max-w-md p-12 bg-white shadow">
                 <h2 className="text-2xl  text-center mb-4">Sign Up</h2>
                 <form onSubmit={signupHandler} className="space-y-4">
-                    <input
-                        type="text"
-                        value={email}
-                        placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="w-full px-4 py-2 border focus:outline-none"
-                    />
                     <input
                         type="text"
                         value={username}

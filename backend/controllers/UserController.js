@@ -1,7 +1,6 @@
 const pool = require("../configs/db");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require('uuid');
-const nodemailer = require('nodemailer');
 
 const generateToken = require("../utils/GenerateToken");
 
@@ -34,7 +33,7 @@ const getCurrentUser = async (req, res) => {
 
         const { user_id } = req.user;
         const result = await pool.query(
-            "SELECT user_id, username, email, created_at FROM users WHERE user_id = $1",
+            "SELECT user_id, username, created_at FROM users WHERE user_id = $1",
             [user_id]
         );
 
@@ -51,18 +50,13 @@ const getCurrentUser = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        let { username, email, password } = req.body;
+        let { username, password } = req.body;
 
-        if (!username || !email || !password) {
-            return res.status(400).json({ error: "MISSING USERNAME, EMAIL OR PASSWORD" });
+        if (!username || !password) {
+            return res.status(400).json({ error: "MISSING USERNAME OR PASSWORD" });
         }
 
         username = username.trim();
-        email = email.trim();
-
-        if (!/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(email)) {
-            return res.status(400).json({ error: "INVALID EMAIL FORMAT" });
-        }
 
         if (username.length === 0 || username.length > 20) {
             return res.status(400).json({ error: "USERNAME MUST BE BETWEEN 1 AND 20 CHARACTERS" });
@@ -76,65 +70,28 @@ const signup = async (req, res) => {
             return res.status(400).json({ error: "PASSWORD MUST BE AT LEAST 8 CHARACTERS AND CONTAIN A NUMBER" });
         }
 
-        // Check duplicates
-        const userExistence = await pool.query(
-            "SELECT * FROM users WHERE username = $1 OR email = $2",
-            [username, email]
-        );
-
+        const userExistence = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
         if (userExistence.rows.length > 0) {
-            return res.status(409).json({ error: "USERNAME OR EMAIL ALREADY EXISTS" });
+            return res.status(409).json({ error: "USERNAME ALREADY EXISTS" });
         }
 
-        // Create user
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const emailToken = uuidv4();
+        const saltRounds = 12;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const result = await pool.query(
-            `INSERT INTO users (username, email, password, email_verification_token)
-             VALUES ($1, $2, $3, $4)
-             RETURNING user_id, username, email`,
-            [username, email, hashedPassword, emailToken]
+            `INSERT INTO users (username, password)
+             VALUES ($1, $2)
+             RETURNING user_id, username`,
+            [username, hashedPassword]
         );
 
-        const user = result.rows[0];
+        res.status(200).json({ message: "USER CREATED!", user: result.rows[0] });
 
-        try {
-            const transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 465,
-                secure: true,
-                auth: {
-                    user: process.env.EMAIL_USERNAME,
-                    pass: process.env.EMAIL_PASSWORD,
-                },
-            });
-
-            const verificationLink =
-                `${process.env.FRONTEND_DOMAIN_PROD}/verify-email/${emailToken}`;
-
-            await transporter.sendMail({
-                from: `"SELLIER" <${process.env.EMAIL_USERNAME}>`,
-                to: email,
-                subject: "Verify Your Email",
-                html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`
-            });
-
-        } catch (mailErr) {
-            console.error("EMAIL SEND FAILED:", mailErr);
-        }
-
-        return res.status(200).json({
-            message: "ACCOUNT CREATED. CHECK YOUR EMAIL TO VERIFY.",
-            user,
-            emailSent: true
-        });
-
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: "INTERNAL SERVER ERROR" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'INTERNAL SERVER ERROR' });
     }
-};
+}
 
 const login = async (req, res) => {
     try {
@@ -149,22 +106,14 @@ const login = async (req, res) => {
         }
 
         username = username.trim();
-        const isEmail = /^[\w.-]+@[\w.-]+\.\w{2,}$/.test(username);
-        const userQuery = isEmail
-            ? "SELECT * FROM users WHERE email = $1"
-            : "SELECT * FROM users WHERE username = $1";
 
         // CANNOT USE KEYWORD 'RETURNING' WITH 'SELECT' STATEMENT
-        const userExistence = await pool.query(userQuery, [username]);
+        const userExistence = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
         if (userExistence.rows.length === 0) {
             return res.status(404).json({ error: "ACCOUNT NOT FOUND" });
         }
 
-
         const user = userExistence.rows[0];
-        if (!user.is_verified) {
-            return res.status(403).json({ error: "VERIFY YOUR EMAIL BEFORE LOGGING IN" });
-        }
 
         const passwordMatch = await bcrypt.compare(password, userExistence.rows[0].password)
         if (!passwordMatch) {
@@ -185,10 +134,9 @@ const login = async (req, res) => {
             user: {
                 user_id: user.user_id,
                 username: user.username,
-                email: user.email,
-                is_verified: user.is_verified,
                 created_at: user.created_at,
             }
+
         });
 
     } catch (err) {
@@ -210,29 +158,4 @@ const logout = async (req, res) => {
     }
 }
 
-const verifyEmail = async (req, res) => {
-    const { token } = req.params;
-
-    try {
-        const user = await pool.query(
-            "SELECT * FROM users WHERE email_verification_token = $1",
-            [token]
-        );
-
-        if (user.rows.length === 0) {
-            return res.status(400).json({ error: "INVALID OR EXPIRED TOKEN" });
-        }
-
-        const updateResult = await pool.query(
-            "UPDATE users SET is_verified = TRUE, email_verification_token = NULL WHERE email_verification_token = $1",
-            [token]
-        );
-
-        res.status(200).json({ message: "EMAIL VERIFIED SUCCESSFULLY!", updateResult });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "INTERNAL SERVER ERROR" });
-    }
-};
-
-module.exports = { getAllUsers, signup, login, getCurrentUser, verifyEmail, logout };
+module.exports = { getAllUsers, signup, login, getCurrentUser, logout };

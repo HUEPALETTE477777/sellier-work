@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
+
 :root {
   --color-primary-black: #000000;
   --color-primary-gray: #666666;
   --color-secondary-gray: #979797;
   --color-secondary-blue: #1091ca;
   --color-secondary-navy-blue: #0f3559;
+
 }

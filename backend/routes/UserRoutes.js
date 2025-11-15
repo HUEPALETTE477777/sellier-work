@@ -6,7 +6,6 @@ const {
     signup,
     login,
     getCurrentUser,
-    verifyEmail,
     logout,
 } = require("../controllers/UserController")
 
@@ -19,7 +18,6 @@ router.post("/login", login)
 router.post("/logout", getUserFromToken, logout)
 
 router.get("/current", getUserFromToken, getCurrentUser)
-router.get('/verify-email/:token', verifyEmail);
 
 
 module.exports = router;
