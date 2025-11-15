@@ -8,7 +8,7 @@ const About = () => {
             <div className="md:w-1/2 text-center animate-slide-in-left">
                 <h1 className="
                         md:text-9xl font-bold text-white mb-4 p-12
-                        bg-gradient-to-br from-secondary-navy-blue to-transparent
+                        bg-gradient-to-l from-secondary-navy-blue to-transparent
                         shadow-lg shadow-blue-900/40 rounded-xl
                     ">
                     About Cybot
@@ -19,7 +19,7 @@ const About = () => {
             <div className="
                     md:w-1/2 text-lg md:text-2xl sm:text-xl font-light text-secondary-white
                     animate-slide-in-right
-                    bg-gradient-to-br from-blue-900/20 to-transparent
+                    bg-gradient-to-r from-secondary-navy-blue to-transparent
                     p-8 rounded-xl
                     border-l-4 border-blue-200
                     shadow-[0_0_25px_rgba(30,64,175,0.25)]
