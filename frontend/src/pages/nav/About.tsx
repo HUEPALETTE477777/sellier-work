@@ -9,7 +9,7 @@ const About = () => {
                 <h1 className="
                         md:text-9xl font-bold text-white mb-4 p-12
                         bg-gradient-to-l from-secondary-navy-blue to-transparent
-                        shadow-lg shadow-blue-900/40 rounded-xl
+                         rounded-xl
                     ">
                     About Cybot
                 </h1>
@@ -22,7 +22,6 @@ const About = () => {
                     bg-gradient-to-r from-secondary-navy-blue to-transparent
                     p-8 rounded-xl
                     border-l-4 border-blue-200
-                    shadow-[0_0_25px_rgba(30,64,175,0.25)]
                 ">
                 <p className="mb-4">
                     Our product, Cybot, is a robot which ensures safe and efficient tasks
