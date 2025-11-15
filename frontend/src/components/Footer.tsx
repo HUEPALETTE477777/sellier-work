@@ -1,9 +1,10 @@
 
 const Footer = () => {
     return (
-        <footer className="fixed bottom-0 w-full bg-primary-navy-blue text-white py-4 text-center sm:text-sm md:text-xl">
-            <p>&copy; {new Date().getFullYear()} Cybot. All rights reserved.</p>
+        <footer className="bg-primary-black text-white py-6 text-center sm:text-sm md:text-xl mt-auto">
+            <p>&copy; {new Date().getFullYear()} Cybot LLC. made for a school project</p>
         </footer>
+
     );
 };
 
