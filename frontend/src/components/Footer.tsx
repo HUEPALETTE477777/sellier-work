@@ -5,7 +5,7 @@ import { FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <footer className="bg-primary-black px-10 py-16 text-white border-t border-white">
+        <footer className="bg-secondary-navy-blue px-10 py-16 text-white border-t border-white">
             <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16">
 
                 {/* COMPANY INFO */}
@@ -22,7 +22,6 @@ const Footer = () => {
                 </div>
 
                 {/* SOCIALS */}
-                {/* SOCIALS */}
                 <div className="space-y-4">
                     <h6 className="font-bold text-lg sm:text-xl">Socials</h6>
                     <ul className="flex gap-6 items-center sm:text-lg">
@@ -32,7 +31,7 @@ const Footer = () => {
                                 href="https://www.tiktok.com/@thecybot"
                                 target="_blank"
                             >
-                                <FaInstagram className="text-4xl sm:text-5xl" />
+                                <FaTiktok className="text-4xl sm:text-5xl" />
                             </a>
                         </li>
                         <li>
@@ -41,7 +40,7 @@ const Footer = () => {
                                 href="https://www.instagram.com/theecybot/"
                                 target="_blank"
                             >
-                                <FaTiktok className="text-4xl sm:text-5xl" />
+                                <FaInstagram className="text-4xl sm:text-5xl" />
                             </a>
                         </li>
                     </ul>

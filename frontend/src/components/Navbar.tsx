@@ -31,7 +31,7 @@ const Navbar = () => {
     return (
         <nav
             className={`
-                bg-primary-black text-white sticky top-0 z-999
+                bg-secondary-navy-blue text-white sticky top-0 z-999
                 transition-all duration-500 ease-[cubic-bezier(.4,0,.2,1)]
                 ${scrolled 
                     ? 'shadow-secondary-navy-blue shadow-lg translate-y-0 opacity-100' 

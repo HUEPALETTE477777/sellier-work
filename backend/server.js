@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 dotenv.config()
 
 const app = express();
-const port = process.env.PORT || 6666
+const port = process.env.PORT || 5111
 
 const allowed = [
     process.env.FRONTEND_DOMAIN_LOCAL,
