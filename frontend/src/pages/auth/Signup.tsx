@@ -29,7 +29,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 ">
+        <div className="flex flex-col items-center justify-center min-h-screen mt-20 mb-20 ">
             <div className="w-full max-w-md p-12 bg-white shadow">
                 <h2 className="text-2xl  text-center mb-4">Sign Up</h2>
                 <form onSubmit={signupHandler} className="space-y-4">
