@@ -5,12 +5,12 @@ import { FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <footer className="bg-secondary-navy-blue px-10 py-16 text-white border-t border-white">
+        <footer className="bg-gradient-to-r from-secondary-navy-blue to-secondary-navy-blue/80 px-10 py-16 text-white ml-15 mr-15 mb-4 rounded-2xl">
             <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16">
 
                 {/* COMPANY INFO */}
                 <div className="space-y-2">
-                    <img src={logo} className="w-32 sm:w-40" alt="Logo" />
+                    <img src={logo} className="w-32 sm:w-40"/>
 
                     <p className="font-semibold text-xl sm:text-2xl">
                         CYBOT LLC

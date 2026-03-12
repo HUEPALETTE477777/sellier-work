@@ -7,6 +7,7 @@ import About from "../pages/nav/About";
 import Home from "../pages/nav/Home";
 import Contact from "../pages/nav/Contact";
 import Profile from "../pages/auth/Profile";
+import Team from "../pages/nav/Team"
 
 const router = createBrowserRouter([
     {
@@ -36,7 +37,11 @@ const router = createBrowserRouter([
             {
                 path: "/profile/:id",
                 element: <Profile />
-            }
+            },
+            {
+                path: "/team",
+                element: <Team />
+            },
         ],
     }
 ])
