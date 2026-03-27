@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
     return (
-        <div className="bg-primary-black min-h-screen -mt-5 px-6 flex flex-col md:flex-row items-center justify-center gap-12">
+        <div className="bg-gray-50 flex flex-col items-center justify-center py-16 -mt-5 px-6 md:flex-row gap-12">
 
             {/* LEFT SIDE — TITLE */}
             <div className="md:w-1/2 text-center animate-slide-in-left">
