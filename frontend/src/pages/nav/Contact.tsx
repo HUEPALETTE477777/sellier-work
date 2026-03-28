@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 
 interface FormData {
     firstName: string;
@@ -26,11 +25,11 @@ const ContactForm = () => {
     const [focused, setFocused] = useState<string | null>(null);
     const [submitted, setSubmitted] = useState<boolean>(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSubmitted(true);
     };
@@ -56,11 +55,6 @@ const ContactForm = () => {
             <img
                 src={BACKGROUND_IMAGE_URL}
                 className="absolute inset-0 bg-center w-full h-full object-cover"
-            />
-            {/* VIGNETTE SHADOW AROUND FOR BACKGROUND IMAGE */}
-            <div
-                className="absolute inset-0"
-
             />
 
             {/* CONTENT */}
@@ -113,7 +107,9 @@ const ContactForm = () => {
                                 <div className="space-y-1">
                                     <label className="text-xs font-semibold uppercase tracking-widest text-gray-400">First Name</label>
                                     <input
-                                        type="text" name="firstName" value={formData.firstName}
+                                        type="text" 
+                                        name="firstName" 
+                                        value={formData.firstName}
                                         onChange={handleChange}
                                         onFocus={() => setFocused('firstName')}
                                         onBlur={() => setFocused(null)}
@@ -124,7 +120,9 @@ const ContactForm = () => {
                                 <div className="space-y-1">
                                     <label className="text-xs font-semibold uppercase tracking-widest text-gray-400">Last Name</label>
                                     <input
-                                        type="text" name="lastName" value={formData.lastName}
+                                        type="text" 
+                                        name="lastName" 
+                                        value={formData.lastName}
                                         onChange={handleChange}
                                         onFocus={() => setFocused('lastName')}
                                         onBlur={() => setFocused(null)}
@@ -138,11 +136,14 @@ const ContactForm = () => {
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold uppercase tracking-widest text-gray-400">Email</label>
                                 <input
-                                    type="email" name="email" value={formData.email}
+                                    type="email" 
+                                    name="email" 
+                                    value={formData.email}
                                     onChange={handleChange}
                                     onFocus={() => setFocused('email')}
                                     onBlur={() => setFocused(null)}
-                                    placeholder="austinsbirthkid@gmail.com" required
+                                    placeholder="austinsbirthkid@gmail.com" 
+                                    required
                                     className={inputClass('email')}
                                 />
                             </div>
@@ -151,7 +152,9 @@ const ContactForm = () => {
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold uppercase tracking-widest text-gray-400">Phone</label>
                                 <input
-                                    type="tel" name="phone" value={formData.phone}
+                                    type="tel" 
+                                    name="phone" 
+                                    value={formData.phone}
                                     onChange={handleChange}
                                     onFocus={() => setFocused('phone')}
                                     onBlur={() => setFocused(null)}
@@ -164,12 +167,14 @@ const ContactForm = () => {
                             <div className="space-y-1">
                                 <label className="text-xs font-semibold uppercase tracking-widest text-gray-400">Message</label>
                                 <textarea
-                                    name="message" value={formData.message}
+                                    name="message" 
+                                    value={formData.message}
                                     onChange={handleChange}
                                     onFocus={() => setFocused('message')}
                                     onBlur={() => setFocused(null)}
                                     placeholder="write your shidjeet message here"
-                                    rows={3} required
+                                    rows={3} 
+                                    required
                                     className={`${inputClass('message')} resize-none`}
                                 />
                             </div>
