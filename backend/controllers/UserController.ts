@@ -21,6 +21,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
         const userPayload = results.rows.map((user: UserPayload) => ({
             user_id: user.user_id,
             username: user.username,
+            role: user.role,
             created_at: user.created_at,
         }));
 
@@ -40,7 +41,7 @@ export const getCurrentUser = async (req: AuthenticatedRequest, res: Response): 
 
         const { user_id } = req.user;
         const result = await pool.query(
-            "SELECT user_id, username, created_at FROM users WHERE user_id = $1",
+            "SELECT user_id, username, role, created_at FROM users WHERE user_id = $1",
             [user_id]
         );
 
