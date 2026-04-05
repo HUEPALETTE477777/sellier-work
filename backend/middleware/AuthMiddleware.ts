@@ -9,6 +9,7 @@ interface DecodedToken {
 interface AuthenticatedRequest extends Request {
     user?: {
         user_id: string;
+        role: string;
     };
 }
 
@@ -43,6 +44,14 @@ const getUserFromToken = async ( req: AuthenticatedRequest, res: Response, next:
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "INTERNAL SERVER ERROR" });
+    }
+};
+
+const isAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    if (req.user && req.user.role === 'admin') {
+        next(); // PASS CONTROL TO NEXT ROUTE/MIDDLEWARE, NO RESPONSES
+    } else {
+        res.status(403).json({ error: "FORBIDDEN: ADMIN ACCESS REQUIRED" });
     }
 };
 
