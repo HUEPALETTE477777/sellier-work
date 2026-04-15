@@ -59,7 +59,7 @@ export const getCurrentUser = async (req: AuthenticatedRequest, res: Response): 
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
     try {
-        let { username, password }: { username: string; password: string } = req.body;
+        let { username, password } : { username: string; password: string } = req.body;
 
         if (!username || !password) {
             res.status(400).json({ error: "MISSING USERNAME OR PASSWORD" });
